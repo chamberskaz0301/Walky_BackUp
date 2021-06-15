@@ -1,4 +1,4 @@
-# git v0.1
+# git v1.0
 gitに関する規約
 
 ## Milestones

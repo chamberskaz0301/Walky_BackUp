@@ -1,0 +1,32 @@
+@startuml
+
+|User|
+
+start
+
+:アプリ起動;
+
+|#AntiqueWhite|database|
+:会員登録;
+:ログイン;
+
+|MAP API|
+:MAP表示;
+:現在地表示;
+
+|User|
+:アクティビティの開始;
+
+|MAP API|
+:目的地候補の表示;
+
+|User|
+:目的地の決定;
+:アクティビティの実行;
+:アクティビティの終了;
+
+|database|
+:アクティビティ登録;
+
+stop
+@enduml
