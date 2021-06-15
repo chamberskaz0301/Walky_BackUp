@@ -1,4 +1,4 @@
-# Kotlinコーディング規約 v0.1
+# Kotlinコーディング規約 v1.0
 - [Kotlinコーディング規約](https://developer.android.com/kotlin/style-guide?hl=ja)を文字起こししたもの
 - 上記のサイトを見ても対応できない場合は[Javaコーディング規約](https://google.github.io/styleguide/javaguide.html)を参照すること
 - それでも解決できない場合は井上または中村に確認すること
