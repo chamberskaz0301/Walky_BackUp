@@ -1,0 +1,6 @@
+@startuml
+
+MapsActivity -> MapApplicationService: startup()
+MapApplicationService --> MapActivity: bool
+
+@enduml
