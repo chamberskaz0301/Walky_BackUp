@@ -1,0 +1,15 @@
+@startuml
+
+MapsActivity -> MapApplicationService: 生成
+MapApplicationService -> Map: 生成
+Map --> MapApplicationService: インスタンス返却
+
+MapsActivity -> MapApplicationService: アプリ立ち上げ
+MapApplicationService -> GPS: 現在地取得
+' GPS -> Location: 位置情報生成
+' Location --> GPS: 位置情報返却
+' GPS --> MapApplicationService: 位置情報返却
+GPS --> MapApplicationService: 結果
+MapApplicationService --> MapsActivity: 結果
+
+@enduml

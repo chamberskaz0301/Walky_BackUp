@@ -1,0 +1,27 @@
+@startuml
+
+package "Walky" {
+  entity "会員テーブル" as users {
+    + 会員ID [PK]
+    --
+    ユーザ名
+    メールアドレス
+    パスワード
+    性別
+    年齢
+  }
+
+  entity "アクティビティテーブル" as activities {
+    + アクティビティID [PK]
+    --
+    # 会員ID [FK]
+    距離
+    開始時刻
+    終了時刻
+  }
+}
+
+users ||..o{ activities
+
+
+@enduml
