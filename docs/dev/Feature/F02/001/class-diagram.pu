@@ -6,7 +6,17 @@ class MapsActivity {
 
 package application {
   class MapApplicationService {
-    
+    startup()
+  }
+}
+
+package domain {
+  class Map {
+
+  }
+
+  class GPS {
+
   }
 }
 
