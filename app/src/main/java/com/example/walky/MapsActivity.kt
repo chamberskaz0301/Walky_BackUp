@@ -18,6 +18,9 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.Marker
 
+/**
+ * AppCompatActivityクラスを実装し、OnMapReadyCallbackとOnMakerClickListenerインターフェースを実装するs
+ */
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var mMap: GoogleMap
@@ -38,11 +41,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         /**
          * 削除したら動作しなかった
-         * onMapReady->fusedLocationClientの順に実行
+         * getMapAsync()->fusedLocationClient作成->onMapReady()の順?
          */
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
+    /**
+     * リントが警告を無視する
+     */
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
