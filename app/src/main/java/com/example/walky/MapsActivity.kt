@@ -7,6 +7,7 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
+import com.example.walky.application.MapApplicationService
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,6 +28,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    private val mapApplication: MapApplicationService = MapApplicationService()
+
     companion object {
         private  const val LOCATION_REQUEST_CODE = 1
     }
@@ -44,6 +47,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
          * getMapAsync()->fusedLocationClient作成->onMapReady()の順?
          */
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        mapApplication.startUp()
     }
 
     /**

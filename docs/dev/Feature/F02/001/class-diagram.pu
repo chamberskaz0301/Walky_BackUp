@@ -9,23 +9,21 @@ package application {
   class MapApplicationService {
     - map: Map
     - gps: GPS
-    + startup(): bool
+    + startUp(): bool
   }
 }
 
 package domain {
-  class Map {
-    - {static} instance
-    - mMap: GoogleMap
-    + {static} getInstance()
-    + {abstract} onMapReady()
-  }
+    package model {
+      class Map {
+        - mMap: GoogleMap
+        + {abstract} onMapReady()
+      }
 
-  class GPS {
-    - {static} instance
-    + {static} getInstance()
-    + enableCurrentLocation()
-    - checkPermission()
+      class GPS {
+        + enableCurrentLocation()
+        - checkPermission()
+      }
   }
 }
 
