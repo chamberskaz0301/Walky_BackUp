@@ -12,6 +12,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+/**
+ * GPS利用の許可を求めたり、現在地レイヤーを表示したりする
+ */
+
 class GPS(appActivity: AppCompatActivity) {
     private val activity: AppCompatActivity
     private lateinit var lastLocation: Location
@@ -53,9 +57,12 @@ class GPS(appActivity: AppCompatActivity) {
 
     private fun checkPermission() {}
 
+    /**
+     * デバッグ用
+     */
     private fun placeMarkerOnMap(currentLatLong: LatLng, mMap: GoogleMap) {
         val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("動作テスト1")
+        markerOptions.title("動作テスト3")
         mMap.addMarker(markerOptions)
     }
 }

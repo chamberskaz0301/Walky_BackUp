@@ -14,6 +14,17 @@ class MapsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
+
+        /**
+         * TODO: getMapAsyncのonMapReady実行を待ちたい = コールバック内のGPSクラス依存をなくしたい
+         * TODO: MapCallbackのuiパッケージ化検討
+         * TODO: GPSクラス修正
+         * TODO: KDoc作成
+         * TODO: 設計の修正
+         */
+
+
+
         val map = mapApplication.startUp()
 
         val mapFragment = supportFragmentManager
