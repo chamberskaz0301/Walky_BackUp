@@ -1,0 +1,36 @@
+@startuml
+
+class MapsActivity {
+  - mapApplication: MapApplicationService
+  + {abstract} onCreate()
+}
+
+package application {
+  class MapApplicationService {
+    - map: Map
+    - gps: GPS
+    + startup(): bool
+  }
+}
+
+package domain {
+  class Map {
+    - {static} instance
+    - mMap: GoogleMap
+    + {static} getInstance()
+    + {abstract} onMapReady()
+  }
+
+  class GPS {
+    - {static} instance
+    + {static} getInstance()
+    + enableCurrentLocation()
+    - checkPermission()
+  }
+}
+
+MapsActivity *-- MapApplicationService
+MapApplicationService o-- Map
+MapApplicationService o-- GPS
+
+@enduml
