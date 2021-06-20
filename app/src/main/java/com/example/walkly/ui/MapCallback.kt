@@ -1,6 +1,6 @@
-package com.example.walky.ui
+package com.example.walkly.ui
 
-import com.example.walky.application.MapApplicationService
+import com.example.walkly.application.MapApplicationService
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.Marker

@@ -1,4 +1,4 @@
-package com.example.walky.domain.model
+package com.example.walkly.domain.model
 
 import com.google.android.gms.maps.GoogleMap
 

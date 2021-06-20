@@ -1,4 +1,4 @@
-package com.example.walky.domain.model
+package com.example.walkly.domain.model
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -57,7 +57,7 @@ class GPS(appActivity: AppCompatActivity) {
      */
     private fun placeMarkerOnMap(currentLatLong: LatLng, mMap: GoogleMap) {
         val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("動作テスト6")
+        markerOptions.title("動作テスト7")
         mMap.addMarker(markerOptions)
     }
 }

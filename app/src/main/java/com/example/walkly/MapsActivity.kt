@@ -1,9 +1,9 @@
-package com.example.walky
+package com.example.walkly
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.walky.application.MapApplicationService
-import com.example.walky.ui.MapCallback
+import com.example.walkly.application.MapApplicationService
+import com.example.walkly.ui.MapCallback
 
 import com.google.android.gms.maps.SupportMapFragment
 

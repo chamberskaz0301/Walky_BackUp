@@ -1,8 +1,8 @@
-package com.example.walky.application
+package com.example.walkly.application
 
 import androidx.appcompat.app.AppCompatActivity
-import com.example.walky.domain.model.GPS
-import com.example.walky.domain.model.MyMap
+import com.example.walkly.domain.model.GPS
+import com.example.walkly.domain.model.MyMap
 import com.google.android.gms.maps.GoogleMap
 
 /**
