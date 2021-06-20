@@ -17,17 +17,12 @@ import com.google.android.gms.maps.model.MarkerOptions
  */
 
 class GPS(appActivity: AppCompatActivity) {
-    private val activity: AppCompatActivity
+    private val activity: AppCompatActivity = appActivity
     private lateinit var lastLocation: Location
-    private  val fusedLocationClient: FusedLocationProviderClient
+    private  val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
 
     companion object {
         private  const val LOCATION_REQUEST_CODE = 1
-    }
-
-    init {
-        activity = appActivity
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
     }
 
     fun enableCurrentLocation(mMap: GoogleMap) {
@@ -36,8 +31,8 @@ class GPS(appActivity: AppCompatActivity) {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED){
 
-            ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                GPS.LOCATION_REQUEST_CODE
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_REQUEST_CODE
             )
 
             return
@@ -55,14 +50,14 @@ class GPS(appActivity: AppCompatActivity) {
         }
     }
 
-    private fun checkPermission() {}
+    private fun checkPermission(mMap: GoogleMap) {}
 
     /**
      * デバッグ用
      */
     private fun placeMarkerOnMap(currentLatLong: LatLng, mMap: GoogleMap) {
         val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("動作テスト3")
+        markerOptions.title("動作テスト6")
         mMap.addMarker(markerOptions)
     }
 }

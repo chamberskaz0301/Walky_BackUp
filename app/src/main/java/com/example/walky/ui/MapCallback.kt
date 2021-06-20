@@ -1,5 +1,6 @@
-package com.example.walky.domain.model
+package com.example.walky.ui
 
+import com.example.walky.application.MapApplicationService
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.Marker
@@ -9,19 +10,17 @@ import com.google.android.gms.maps.model.Marker
  * Map準備完了時,マーカークリック時などの処理を定義しているクラス
  */
 
-class MapCallback(private val gps: GPS): OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-    private lateinit var mMap: GoogleMap
+class MapCallback(private val mapApplication: MapApplicationService): OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     /**
      * OnMapReadyCallbackインターフェースからの継承
-     * Mapが使用可能になったら、GPSクラスに現在地の使用を求める
+     * 準備ができたらGoogleMapを受け取り、アプリケーション立ち上げ
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.setOnMarkerClickListener(this)
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.setOnMarkerClickListener(this)
 
-        gps.enableCurrentLocation(mMap)
+        mapApplication.startUp(googleMap)
     }
 
     /**
