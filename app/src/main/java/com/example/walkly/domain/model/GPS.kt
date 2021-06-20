@@ -10,7 +10,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 /**
  * GPS利用の許可を求めたり、現在地レイヤーを表示したりする
@@ -25,6 +24,13 @@ class GPS(appActivity: AppCompatActivity) {
         private  const val LOCATION_REQUEST_CODE = 1
     }
 
+
+    /**
+     * GPS利用許可を求める
+     * 現在地レイヤーの表示
+     *
+     * @param mMap GoogleMap SDK のメインクラス
+     */
     fun enableCurrentLocation(mMap: GoogleMap) {
         if (ActivityCompat.checkSelfPermission(
                 activity,
@@ -34,8 +40,6 @@ class GPS(appActivity: AppCompatActivity) {
             ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_REQUEST_CODE
             )
-
-            return
         }
         mMap.isMyLocationEnabled = true
         fusedLocationClient.lastLocation.addOnSuccessListener(activity){location ->
@@ -43,21 +47,15 @@ class GPS(appActivity: AppCompatActivity) {
             if(location != null){
                 lastLocation = location
                 val  currentLatLong = LatLng(location.latitude, location.longitude)
-                placeMarkerOnMap(currentLatLong, mMap)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 18f))
             }
 
         }
     }
 
-    private fun checkPermission(mMap: GoogleMap) {}
-
     /**
-     * デバッグ用
+     * GPS利用許可を求める
      */
-    private fun placeMarkerOnMap(currentLatLong: LatLng, mMap: GoogleMap) {
-        val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("動作テスト7")
-        mMap.addMarker(markerOptions)
-    }
+    private fun checkPermission() {}
+
 }

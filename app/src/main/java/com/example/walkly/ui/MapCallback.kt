@@ -15,6 +15,8 @@ class MapCallback(private val mapApplication: MapApplicationService): OnMapReady
     /**
      * OnMapReadyCallbackインターフェースからの継承
      * 準備ができたらGoogleMapを受け取り、アプリケーション立ち上げ
+     *
+     * @param googleMap GoogleMap SDK のメインクラス
      */
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.uiSettings.isZoomControlsEnabled = true

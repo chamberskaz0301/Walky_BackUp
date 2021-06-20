@@ -19,7 +19,9 @@ class MapsActivity : AppCompatActivity() {
 
         /**
          * TODO: GPSクラス修正
-         * TODO: KDoc作成
+         *  - 許可しない時の処理
+         * https://developer.android.com/training/permissions/requesting
+         *
          * TODO: 設計の修正
          */
 

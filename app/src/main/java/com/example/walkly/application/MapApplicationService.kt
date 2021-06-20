@@ -13,7 +13,9 @@ class MapApplicationService(private val activity: AppCompatActivity) {
     private lateinit var myMap: MyMap
 
     /**
-     * マップの準備ができたら現在地の取得をお願いする
+     * マップの準備ができたら現在地を取得し、GoogleMapを保管する
+     *
+     * @param mMap OnMapReadyCallbackインターフェースのonMapReadyが受け取る引数
      */
     fun startUp(mMap: GoogleMap) {
         val gps = GPS(activity)
