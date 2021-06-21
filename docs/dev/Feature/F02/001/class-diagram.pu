@@ -2,33 +2,49 @@
 
 class MapsActivity {
   - mapApplication: MapApplicationService
+  - mapCallback: MapCallback
+
   + {abstract} onCreate()
 }
 
 package application {
   class MapApplicationService {
-    - map: Map
-    - gps: GPS
-    + startUp(): bool
+    - myMap: MyMap
+
+    + startUp(mMap: GoogleMap)
+  }
+}
+
+package ui {
+  class MapCallback {
+    + onMapReady(googleMap: GoogleMap)
+    + onMarkerClick(p0: Marker)
   }
 }
 
 package domain {
     package model {
-      class Map {
-        - mMap: GoogleMap
-        + {abstract} onMapReady()
-      }
-
       class GPS {
-        + enableCurrentLocation()
+        - activity: AppCompatActivity
+        - lastLocation: Location
+        - fusedLocationClient: FusedLocationProviderClient
+
+        + enableCurrentLocation(mMap: GoogleMap)
         - checkPermission()
       }
+
+    class MyMap {
+      + mMap: GoogleMap
+    }
   }
 }
 
 MapsActivity *-- MapApplicationService
-MapApplicationService o-- Map
+MapsActivity *-- MapCallback
+MapCallback o-- MapApplicationService
+
 MapApplicationService o-- GPS
+MapApplicationService o-- MyMap
+
 
 @enduml
