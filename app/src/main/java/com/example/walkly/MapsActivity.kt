@@ -1,0 +1,33 @@
+package com.example.walkly
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.example.walkly.application.MapApplicationService
+import com.example.walkly.ui.MapCallback
+
+import com.google.android.gms.maps.SupportMapFragment
+
+class MapsActivity : AppCompatActivity() {
+
+    private val mapApplication: MapApplicationService = MapApplicationService(this)
+    private val mapCallback: MapCallback = MapCallback(mapApplication)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_maps)
+
+
+        /**
+         * TODO: GPSクラス修正
+         *  - 許可しない時の処理
+         * https://developer.android.com/training/permissions/requesting
+         *
+         * TODO: 設計の修正
+         */
+
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(mapCallback)
+    }
+
+}

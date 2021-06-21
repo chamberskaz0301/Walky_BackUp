@@ -1,4 +1,4 @@
-package com.example.walky
+package com.example.walkly
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
