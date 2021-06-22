@@ -32,6 +32,7 @@ class GPS(appActivity: AppCompatActivity) {
      * @param mMap GoogleMap SDK のメインクラス
      */
     fun enableCurrentLocation(mMap: GoogleMap) {
+        var accessLocation = true
         if (ActivityCompat.checkSelfPermission(
                 activity,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -40,8 +41,12 @@ class GPS(appActivity: AppCompatActivity) {
             ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_REQUEST_CODE
             )
+            accessLocation = (ActivityCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED)
         }
-        mMap.isMyLocationEnabled = true
+        mMap.isMyLocationEnabled = accessLocation
         fusedLocationClient.lastLocation.addOnSuccessListener(activity){location ->
 
             if(location != null){
