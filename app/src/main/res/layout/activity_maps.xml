@@ -33,11 +33,11 @@
             app:menu="@menu/bottom_nav_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
-    <!--フロート-->
+    <!--フロート ハンバーガーメニュー擬き　現状非表示
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottomAppBar"
-        android:src="@drawable/ic_list" />
+        android:src="@drawable/ic_list" />-->
 </FrameLayout>
