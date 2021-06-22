@@ -45,6 +45,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+<<<<<<< HEAD
 
     //追加 FusedLocationProvider
     implementation 'com.google.android.gms:play-services-location:18.0.0'
@@ -52,3 +53,7 @@ dependencies {
     //ボトムボタンデザイン
     implementation 'com.google.android.material:material:1.3.0-alph03'
 }
+=======
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8'
+}
+>>>>>>> dev_splashscreen

@@ -1,4 +1,10 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">Walkly</string>
     <string name="title_activity_maps">walkly</string>
+=======
+    <string name="app_name">Walky</string>
+    <string name="title_activity_maps">walky</string>
+    <string name="slash">Slash</string>
+>>>>>>> dev_splashscreen
 </resources>
