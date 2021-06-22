@@ -1,4 +1,4 @@
-package com.example.walky
+package com.example.walkly
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
