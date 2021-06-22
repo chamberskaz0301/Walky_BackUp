@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Walky</string>
     <string name="title_activity_maps">walky</string>
+    <string name="slash">Slash</string>
 </resources>
