@@ -48,4 +48,7 @@ dependencies {
 
     //追加 FusedLocationProvider
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    //ボトムボタンデザイン
+    implementation 'com.google.android.material:material:1.3.0-alph03'
 }
