@@ -1,0 +1,35 @@
+@startuml
+
+class MapsActivity {
+  + onMapReady()
+}
+
+package application {
+
+  class MapApplicationService {
+    + getWeatherReport()
+  }
+
+}
+
+package domain {
+  package model {
+    
+    class Weather {
+      + getWeatherReport()
+      - createWeatherIcon()
+    }
+
+  }
+}
+
+class HTTP {
+  + getRequest()
+  - JSONParse()
+}
+
+MapsActivity *-- MapApplicationService
+MapApplicationService o-- Weather
+Weather --- HTTP
+
+@enduml
