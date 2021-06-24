@@ -9,14 +9,14 @@ import com.google.android.gms.maps.SupportMapFragment
 
 class MapsActivity : AppCompatActivity() {
 
+
     private val mapApplication: MapApplicationService = MapApplicationService(this)
     private val mapCallback: MapCallback = MapCallback(mapApplication)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-
-
         /**
          * TODO: GPSクラス修正
          *  - 許可しない時の処理
