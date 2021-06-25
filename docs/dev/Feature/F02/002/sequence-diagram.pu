@@ -1,0 +1,18 @@
+@startuml
+
+MapsActivity -> MapApplicationService: アクティビティ開始
+MapApplicationService -> Activity: アクティビティ開始
+
+loop アクティビティ中
+
+Activity -> Activity: 目的地の取得
+Activity -> Activity: マーカーの設置
+
+end
+
+MapsActivity -> MapApplicationService: アクティビティ終了
+MapApplicationService -> Activity: アクティビティ終了
+
+Activity -> Activity: アクティビティ記録
+
+@enduml

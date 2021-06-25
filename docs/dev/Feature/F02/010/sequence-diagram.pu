@@ -1,0 +1,14 @@
+@startuml
+
+MapsActivity -> MapApplicationService: 天気予測指示
+MapApplicationService -> Weather: 天気予測指示
+
+Weather -> HTTP: HTTPリクエスト
+HTTP --> Weather: 天気情報受け取り
+Weather -> Weather: 情報をアイコンに変更 
+
+Weather --> MapApplicationService: アイコン情報
+MapApplicationService -> MapApplicationService: アイコン変更
+
+
+@enduml
