@@ -4,13 +4,14 @@ import com.example.walkly.application.MapApplicationService
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.PointOfInterest
 
 /**
  *
  * Map準備完了時,マーカークリック時などの処理を定義しているクラス
  */
 
-class MapCallback(private val mapApplication: MapApplicationService): OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapCallback(private val mapApplication: MapApplicationService): OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnPoiClickListener {
 
     /**
      * OnMapReadyCallbackインターフェースからの継承
@@ -20,14 +21,26 @@ class MapCallback(private val mapApplication: MapApplicationService): OnMapReady
      */
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.setOnPoiClickListener(this)
         googleMap.setOnMarkerClickListener(this)
 
         mapApplication.startUp(googleMap)
     }
 
     /**
+     * Google.OnPoiClickListenerからの継承
+     * スポットがクリックされた時に実行される
+     */
+    override fun onPoiClick(point: PointOfInterest) {
+        mapApplication.handlePointClick(point)
+    }
+
+    /**
      * GoogleMap.OnMakerClickListenerインターフェースからの継承
      * マーカーをクリックかタップした時に実行される
      */
-    override fun onMarkerClick(p0: Marker) = false
+    override fun onMarkerClick(marker: Marker): Boolean {
+        mapApplication.handleMarkerClick(marker)
+        return false
+    }
 }
