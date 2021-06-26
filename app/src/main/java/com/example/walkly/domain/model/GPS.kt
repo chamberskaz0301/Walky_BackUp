@@ -15,18 +15,12 @@ import com.google.android.gms.maps.model.LatLng
  * GPS利用の許可を求めたり、現在地レイヤーを表示したりする
  */
 
-class GPS(appActivity: AppCompatActivity): ActivityCompat.OnRequestPermissionsResultCallback {
+class GPS(appActivity: AppCompatActivity) {
     private val activity: AppCompatActivity = appActivity
     private lateinit var lastLocation: Location
     private  val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
 
-    companion object {
-        private  const val LOCATION_REQUEST_CODE = 1
-    }
-
-
     /**
-     * GPS利用許可を求める
      * 現在地レイヤーの表示
      *
      * @param mMap GoogleMap SDK のメインクラス
@@ -43,37 +37,13 @@ class GPS(appActivity: AppCompatActivity): ActivityCompat.OnRequestPermissionsRe
     }
 
     /**
-     * GPS利用許可を求める
+     * GPSが利用できるのか
      */
-     fun checkPermission(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
+     private fun checkPermission(): Boolean {
+        return (ActivityCompat.checkSelfPermission(
                 activity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_REQUEST_CODE
-            )
-            return (ActivityCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED)
-
-        }
-        return true
-    }
-
-    // TODO: ここでは実行しない
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode != LOCATION_REQUEST_CODE) {
-            return
-        }
-        print(requestCode)
-        print(permissions)
-        print(grantResults)
+            ) == PackageManager.PERMISSION_GRANTED
+        )
     }
 }
