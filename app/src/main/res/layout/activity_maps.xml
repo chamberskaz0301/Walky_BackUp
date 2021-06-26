@@ -15,14 +15,12 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="@+id/layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:context=".MapsActivity" />
-
-
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/layout"
@@ -31,39 +29,34 @@
             android:elevation="0dp"
             android:stateListAnimator="@null">
 
-
-            <!--   アクティビティ開始ボタン  -->
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                app:backgroundTint="@color/design_default_color_primary"
-                app:fabCradleMargin="20dp"
+                app:backgroundTint="@color/material_on_primary_disabled"
                 app:fabCradleRoundedCornerRadius="20dp"
                 app:fabCradleVerticalOffset="10dp"
                 app:fabAlignmentMode="center">
-
+                <!--ボタン表示 -->
                 <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/bottomNavigationView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
                     app:itemTextColor="@color/black"
-                    app:menu="@menu/bottom_nav_menu" />
-
+                    app:menu="@menu/bottom_nav_menu"
+                    app:elevation="0dp" />
             </com.google.android.material.bottomappbar.BottomAppBar>
-
+            <!--   アクティビティ開始ボタン  -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_anchor="@id/bottomAppBar"
+               app:backgroundTint="#6BAAFF"
                 app:srcCompat="@drawable/ic_walk" />
-
-
-
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
