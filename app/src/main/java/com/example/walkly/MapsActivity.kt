@@ -27,5 +27,4 @@ class MapsActivity : AppCompatActivity() {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(mapCallback)
     }
-
 }

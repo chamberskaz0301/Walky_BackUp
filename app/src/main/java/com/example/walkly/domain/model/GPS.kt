@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng
  * GPS利用の許可を求めたり、現在地レイヤーを表示したりする
  */
 
-class GPS(appActivity: AppCompatActivity) {
+class GPS(appActivity: AppCompatActivity): ActivityCompat.OnRequestPermissionsResultCallback {
     private val activity: AppCompatActivity = appActivity
     private lateinit var lastLocation: Location
     private  val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
@@ -32,35 +32,48 @@ class GPS(appActivity: AppCompatActivity) {
      * @param mMap GoogleMap SDK のメインクラス
      */
     fun enableCurrentLocation(mMap: GoogleMap) {
-        var accessLocation = true
-        if (ActivityCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED){
-
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_REQUEST_CODE
-            )
-            accessLocation = (ActivityCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED)
-        }
-        mMap.isMyLocationEnabled = accessLocation
+        mMap.isMyLocationEnabled = checkPermission()
         fusedLocationClient.lastLocation.addOnSuccessListener(activity){location ->
-
             if(location != null){
                 lastLocation = location
                 val  currentLatLong = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 18f))
             }
-
         }
     }
 
     /**
      * GPS利用許可を求める
      */
-    private fun checkPermission() {}
+     fun checkPermission(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_REQUEST_CODE
+            )
+            return (ActivityCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED)
 
+        }
+        return true
+    }
+
+    // TODO: ここでは実行しない
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode != LOCATION_REQUEST_CODE) {
+            return
+        }
+        print(requestCode)
+        print(permissions)
+        print(grantResults)
+    }
 }
