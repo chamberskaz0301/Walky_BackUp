@@ -1,9 +1,10 @@
 package com.example.walkly
 
+import android.Manifest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import com.example.walkly.lib.Permission
 import com.example.walkly.ui.PermissionCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
-    private val permissionCallback: PermissionCallback = PermissionCallback(this)
+    private val permission: Permission = Permission(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,18 +20,18 @@ class SplashActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(2000)
-            if (permissionCallback.checkLocationPermission()) {
+            if (permission.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 val intent = Intent(this@SplashActivity, MapsActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
-                permissionCallback.requestLocationPermission()
+                permission.requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, R.integer.location_request_code)
             }
         }
     }
 
     /**
-     * パーミッション拒否なら警告文を表示する
+     * リクエストコードが1なら、GPSパーミッションのコールバックメソッドを実行する
      */
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -38,15 +39,13 @@ class SplashActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (!permissionCallback.checkLocationPermission()) {
-            AlertDialog.Builder(this)
-                .setTitle("警告")
-                .setMessage("一部機能が利用できません")
-                .setPositiveButton("OK") { dialog, which -> }
-                .show()
+        val permissionCallback = PermissionCallback(this)
+        if (requestCode == R.integer.location_request_code) {
+            permissionCallback.onLocationResultCallback()
         }
         val intent = Intent(this@SplashActivity, MapsActivity::class.java)
         startActivity(intent)
         finish()
+
     }
 }

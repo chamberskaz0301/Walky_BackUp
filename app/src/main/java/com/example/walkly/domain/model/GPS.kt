@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.walkly.lib.Permission
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 
 class GPS(appActivity: AppCompatActivity) {
     private val activity: AppCompatActivity = appActivity
+    private val permission: Permission = Permission(activity)
     private lateinit var lastLocation: Location
     private  val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
 
@@ -26,7 +28,7 @@ class GPS(appActivity: AppCompatActivity) {
      * @param mMap GoogleMap SDK のメインクラス
      */
     fun enableCurrentLocation(mMap: GoogleMap) {
-        mMap.isMyLocationEnabled = checkPermission()
+        mMap.isMyLocationEnabled = permission.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
         fusedLocationClient.lastLocation.addOnSuccessListener(activity){location ->
             if(location != null){
                 lastLocation = location
@@ -36,14 +38,4 @@ class GPS(appActivity: AppCompatActivity) {
         }
     }
 
-    /**
-     * GPSが利用できるのか
-     */
-     private fun checkPermission(): Boolean {
-        return (ActivityCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        )
-    }
 }
