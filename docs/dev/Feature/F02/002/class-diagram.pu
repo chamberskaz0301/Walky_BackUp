@@ -1,0 +1,38 @@
+@startuml
+
+package application {
+
+  class MapApplicationService {
+    + startActivity()
+    + stopActivity()
+  }
+
+}
+
+package ui {
+
+  class ActivityButtonCallback {
+    + onStartClick()
+    + onStopClick()
+  }
+
+}
+
+package domain {
+  package model {
+
+    class Activity {
+      + startActivity()
+      + stopActivity()
+      - getGoalLocation()
+      - addMarker()
+      - recordActivity()
+    }
+
+  }
+}
+
+ActivityButtonCallback o-- MapApplicationService
+MapApplicationService o-- Activity
+
+@enduml
