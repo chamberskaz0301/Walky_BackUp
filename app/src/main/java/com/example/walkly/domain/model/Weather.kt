@@ -23,6 +23,10 @@ import android.Manifest;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
+import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 /*変数の初期化*/
@@ -42,120 +46,55 @@ class Weather() {
     * を記述する必要あり？
     */
 
-    public fun start() {
+    public fun start(latLng: LatLng) {
         println("処理を開始")
 
-        /*APIキー*/
-        val APIKEY = "c0017427d17d19299b0b73042052f372"
+        /*CoroutineScope*/
+        CoroutineScope(Dispatchers.Main).launch {
+            /*APIキー*/
+            val APIKEY = "c0017427d17d19299b0b73042052f372"
 
-        /*変数の初期化*/
-        var lat = ""
-        var lon = ""
+            /*緯度経度の設定*/
+            var placeLat = latLng.latitude
+            var placeLon = latLng.longitude
 
-        /*緯度経度情報の取得*/
-        Coordinate()
+            /*接続先URL*/
+            var APIurl = "http://api.openweathermap.org/data/2.5/weather?" +
+                    "lat=" + placeLat + "&" +
+                    "lon=" + placeLon + "&" +
+                    "&APPID=" + APIKEY
 
+            //http://api.openweathermap.org/data/2.5/weather?lat=&lon=&APPID=c0017427d17d19299b0b73042052f372
+            //名古屋駅 http://api.openweathermap.org/data/2.5/weather?lat=35.156065&lon=136.916202&APPID=c0017427d17d19299b0b73042052f372
 
-        /*緯度経度の設定*/
-        var placeLat = lat
-        var placeLon = lon
+            var url = URL(APIurl)
 
-        /*検索結果→変数に格納*/
-        var result = ""
+            /*APIから情報を取得する*/
+            var br = BufferedReader(InputStreamReader(url.openStream()))
 
-        /*接続先URL*/
-        var APIurl = "http://api.openweathermap.org/data/2.5/weather?" +
-                "lat=" + placeLat + "&" +
-                "lon=" + placeLon + "&" +
-                "&APPID=" + APIKEY
-        //http://api.openweathermap.org/data/2.5/weather?lat=&lon=&APPID=c0017427d17d19299b0b73042052f372
-        //名古屋駅 http://api.openweathermap.org/data/2.5/weather?lat=35.156065&lon=136.916202&APPID=c0017427d17d19299b0b73042052f372
+            /*所得した情報を文字列化*/
+            var str = br.readText()
 
-        var url = URL(APIurl)
+            /*json形式のデータとして識別*/
+            var json = JSONObject(str)
 
-        /*APIから情報を取得する*/
-        var br = BufferedReader(InputStreamReader(url.openStream()))
+            /*weatherキーに対応するvalueを表示*/
+            var weatherName = json.get("weather")
 
-        /*所得した情報を文字列化*/
-        var str = br.readText()
-
-        /*json形式のデータとして識別*/
-        var json = JSONObject(str)
-
-        /*weatherキーに対応するvalueを表示*/
-        var weatherName = json.get("weather")
-
-        println(weatherName)
+            println(weatherName)
 
 
-        createWeatherImage(json)
-
+            createWeatherImage(json)
+        }
 
     }
 }
 
-
-    private fun Coordinate() {
         /*
         * コピペ
         * https://note.com/c_omachi/n/nef100a0a23ad
         * */
-        class MainActivity : AppCompatActivity(), LocationListener {
-            private var manager: LocationManager? = null
-            private var textView: TextView? = null
-            override fun onCreate(savedInstanceState: Bundle?) {
-                super.onCreate(savedInstanceState)
-                setContentView(R.layout.activity_main)
-                textView = findViewById<View>(R.id.textView) as TextView
-                manager = getSystemService<Any>(Context.LOCATION_SERVICE) as LocationManager
-            }
 
-            override fun onResume() {
-                super.onResume()
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                        1
-                    )
-                    return
-                }
-                manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this)
-                manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this)
-            }
-
-            override fun onStop() {
-                super.onStop()
-                if (manager != null) {
-                    if (ActivityCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        return
-                    }
-                    manager.removeUpdates(this)
-                }
-            }
-
-            fun onLocationChanged(location: Location) {
-                val text =
-                    "緯度：" + location.getLatitude().toString() + "経度：" + location.getLongitude()
-                textView!!.text = text
-
-                var lat = location.getLatitude().toString()
-                var lon = location.getLongitude()
-            }
-
-            fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-            fun onProviderEnabled(provider: String?) {}
-            fun onProviderDisabled(provider: String?) {}
-        }
-    }
 
 
     /*
@@ -164,38 +103,15 @@ class Weather() {
     private fun createWeatherImage(json: Any) {
         println("天気を画像データに変換")
         var weathericon = weatherName
+        var iconurl : String
 
-    /*文字データを画像データ化*/
-        /*案１*/
-        var iconurl = ""
-
-        when(weathericon){
-            "01d" -> iconurl = "アイコンのURLとかパスとか clear sky"
-            "02d" -> iconurl = "アイコンのURLとかパスとか few clouds"
-            "03d" -> iconurl = "アイコンのURLとかパスとか scattered clouds"
-            "04d" -> iconurl = "アイコンのURLとかパスとか broken clouds"
-            "09d" -> iconurl = "アイコンのURLとかパスとか shower rain"
-            "10d" -> iconurl = "アイコンのURLとかパスとか rain"
-            "11d" -> iconurl = "アイコンのURLとかパスとか thunderstorm"
-            "13d" -> iconurl = "アイコンのURLとかパスとか snow"
-            "50d" -> iconurl = "アイコンのURLとかパスとか mist"
-
-            "01n" -> iconurl = "アイコンのURLとかパスとか clear sky"
-            "02n" -> iconurl = "アイコンのURLとかパスとか few clouds"
-            "03n" -> iconurl = "アイコンのURLとかパスとか scattered clouds"
-            "04n" -> iconurl = "アイコンのURLとかパスとか broken clouds"
-            "09n" -> iconurl = "アイコンのURLとかパスとか shower rain"
-            "10n" -> iconurl = "アイコンのURLとかパスとか rain"
-            "11n" -> iconurl = "アイコンのURLとかパスとか thunderstorm"
-            "13n" -> iconurl = "アイコンのURLとかパスとか snow"
-            "50n" -> iconurl = "アイコンのURLとかパスとか mist"
-        }
-        /*案２*/
         if (weathericon == "") {
-            var iconurl = "画像のパスとか？？/[画像データなし].png"
+            iconurl = "[画像データなし].png"
         }else {
-            var iconurl = "画像のパスとか？？/" + weathericon + ".png"
+            iconurl = weathericon + ".png"
         }
+
+        println(iconurl)
         /*画面上に画像を表示するスペースを作っておき、iconurlの値によって、動的に画像の種類が変わるようにする。*/
 
     }
