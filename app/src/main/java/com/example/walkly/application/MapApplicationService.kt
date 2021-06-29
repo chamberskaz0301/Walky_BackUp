@@ -2,11 +2,12 @@ package com.example.walkly.application
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.walkly.R
 import com.example.walkly.domain.model.GPS
+import com.example.walkly.domain.model.MyApplication
 import com.example.walkly.domain.model.MyMap
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -33,8 +34,10 @@ class MapApplicationService(private val activity: AppCompatActivity) {
 
 
         val path: MutableList<List<LatLng>> = ArrayList()
-        val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=10.3181466,123.9029382&destination=10.311795,123.915864&key=APIKEEEEEEEEEEEEEEEEEEEEEEY"
-        val directionsRequest = object : StringRequest(Request.Method.GET, urlDirections, Response.Listener {
+        val apiKey: String = MyApplication.getContext().getString(R.string.google_maps_key)
+        val urlDirections =
+            "https://maps.googleapis.com/maps/api/directions/json?origin=35.1681,136.8856&destination=35.1709,136.8815&key=$apiKey"
+        val directionsRequest = object : StringRequest(Method.GET, urlDirections, Response.Listener {
                 response ->
             val jsonResponse = JSONObject(response)
             // Get routes
