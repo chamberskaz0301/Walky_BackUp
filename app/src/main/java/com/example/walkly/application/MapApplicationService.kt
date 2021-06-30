@@ -1,19 +1,13 @@
 package com.example.walkly.application
 
-import android.graphics.Color
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.example.walkly.R
 import com.example.walkly.domain.model.GPS
-import com.example.walkly.domain.model.MyApplication
-import com.example.walkly.domain.model.MyMap
+import com.example.walkly.domain.model.mymap.MyMap
+import com.example.walkly.domain.model.mymap.Route
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.maps.android.PolyUtil
-import org.json.JSONObject
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.PointOfInterest
 
 /**
  * 現在地の取得やアクティビティの開始などの指示を統括している
@@ -32,29 +26,34 @@ class MapApplicationService(private val activity: AppCompatActivity) {
         gps.enableCurrentLocation(mMap)
         myMap = MyMap(mMap)
 
+        Route(mMap).drawRoute()
+    }
 
-        val path: MutableList<List<LatLng>> = ArrayList()
-        val apiKey: String = MyApplication.getContext().getString(R.string.google_maps_key)
-        val urlDirections =
-            "https://maps.googleapis.com/maps/api/directions/json?origin=35.1681,136.8856&destination=35.1709,136.8815&key=$apiKey"
-        val directionsRequest = object : StringRequest(Method.GET, urlDirections, Response.Listener {
-                response ->
-            val jsonResponse = JSONObject(response)
-            // Get routes
-            val routes = jsonResponse.getJSONArray("routes")
-            val legs = routes.getJSONObject(0).getJSONArray("legs")
-            val steps = legs.getJSONObject(0).getJSONArray("steps")
-            for (i in 0 until steps.length()) {
-                val points = steps.getJSONObject(i).getJSONObject("polyline").getString("points")
-                path.add(PolyUtil.decode(points))
-            }
-            for (i in 0 until path.size) {
-                mMap.addPolyline(PolylineOptions().addAll(path[i]).color(Color.RED))
-            }
-        }, Response.ErrorListener {
-        }){}
-        val requestQueue = Volley.newRequestQueue(activity)
-        requestQueue.add(directionsRequest)
+    /**
+     * アクティビティを実行中ならマーカーを設置して、保存する(削除やルート用)
+     * そうでなければ情報ウインドウを設置する
+     *
+     * @param point
+     */
+    fun handlePointClick(point: PointOfInterest) {
+
+        // TODO: アクティビティ中ならtrue
+        if (true) {
+            myMap.addMarker(point)
+        } else {
+            Toast.makeText(
+                activity,
+                """
+            ${point.name}
+            緯度:${point.latLng.latitude}
+            経度:${point.latLng.longitude}
+            """,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    fun handleMarkerClick(marker: Marker) {
     }
 
 }
