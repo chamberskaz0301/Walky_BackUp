@@ -21,6 +21,7 @@ class MapCallback(private val mapApplication: MapApplicationService): OnMapReady
      */
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.setOnMarkerClickListener(this)
+        googleMap.setOnPoiClickListener(this)
 
         mapApplication.startUp(googleMap)
     }
