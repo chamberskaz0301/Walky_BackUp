@@ -8,56 +8,97 @@ import com.example.walkly.R
 import com.example.walkly.domain.model.MyApplication
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
 import org.json.JSONObject
+import java.lang.reflect.InvocationTargetException
 
 class Route(private val mMap: GoogleMap) {
 
-    fun drawRoute() {
-        // TODO:debug
+    /**
+     * 経路を引く
+     *
+     * @param origin 始点
+     * @param place 中間地点,終点
+     */
+    fun drawRoute(origin: LatLng, place: MutableList<LatLng>) {
 
+        // TODO: 正式リリース時に消す
         if (true) {
-
-            mMap.addMarker(MarkerOptions().position(LatLng(35.1681, 136.8856))) // HAL
-            mMap.addMarker(MarkerOptions().position(LatLng(35.1709, 136.8815))) // 名古屋駅
-
-            mMap.addMarker(MarkerOptions().position(LatLng(35.1700, 136.8852))) // ミッドランド
-            mMap.addMarker(MarkerOptions().position(LatLng(35.1716, 136.8863))) // ユニモール
-
+            // TODO: リファクタリング
+            // TODO: HTTPリクエスト部の分離
 
             val path: MutableList<List<LatLng>> = ArrayList()
-            val apiKey: String = MyApplication.getContext().getString(R.string.google_maps_key)
-            val urlDirections =
-                "https://maps.googleapis.com/maps/api/directions/json?mode=walking&origin=35.1681,136.8856&waypoints=35.1700,136.8852|35.1716,136.8863&destination=35.1709,136.8815&key=$apiKey"
+            val urlDirections = createURLDirections(origin, place)
             val directionsRequest =
                 object : StringRequest(Method.GET, urlDirections, Response.Listener { response ->
-                    val jsonResponse = JSONObject(response)
-                    // Get routes
-                    val routes = jsonResponse.getJSONArray("routes")
-                    val legs = routes.getJSONObject(0).getJSONArray("legs")
 
-                    for (j in 0 until legs.length()) {
+                    try {
 
-                        val steps = legs.getJSONObject(j).getJSONArray("steps")
-                        for (i in 0 until steps.length()) {
-                            val points =
-                                steps.getJSONObject(i).getJSONObject("polyline").getString("points")
-                            path.add(PolyUtil.decode(points))
+                        val jsonResponse = JSONObject(response)
+
+                        val routes = jsonResponse.getJSONArray("routes")
+                        val legs = routes.getJSONObject(0).getJSONArray("legs")
+
+                        for (j in 0 until legs.length()) {
+
+                            val steps = legs.getJSONObject(j).getJSONArray("steps")
+                            for (i in 0 until steps.length()) {
+                                val points =
+                                    steps.getJSONObject(i).getJSONObject("polyline")
+                                        .getString("points")
+                                path.add(PolyUtil.decode(points))
+                            }
+                            for (i in 0 until path.size) {
+                                mMap.addPolyline(
+                                    PolylineOptions().addAll(path[i]).color(Color.BLUE)
+                                )
+                            }
+
                         }
-                        for (i in 0 until path.size) {
-                            mMap.addPolyline(PolylineOptions().addAll(path[i]).color(Color.BLUE))
-                        }
 
+                    } catch (e: InvocationTargetException) {
+                        // TODO: エラー時の処理
+                    } catch (e: Exception) {
+                        // TODO: エラー時の処理
                     }
 
                 }, Response.ErrorListener {
+                    // TODO: エラー時の処理
                 }) {}
             val requestQueue = Volley.newRequestQueue(MyApplication.getContext())
             requestQueue.add(directionsRequest)
         }
 
+    }
+
+    /**
+     * 経路検索用URLの作成
+     *
+     * @param origin 経路の始点となる場所
+     * @param points 中間地点、終点となる場所
+     * @throws Exception 配列に要素が1つもない = 終点が存在しない
+     */
+    private fun createURLDirections(origin: LatLng, points: MutableList<LatLng>): String {
+        val apiKey: String = MyApplication.getContext().getString(R.string.google_maps_key)
+        val originParam = "origin=${origin.latitude},${origin.longitude}"
+
+        val size = points.size
+        if (size <= 0) {
+            throw Exception("引数pointsには1つ以上の要素が必要です")
+        }
+        var pointsParam = "&destination="
+        if (size == 1) {
+            pointsParam += "${points[0].latitude},${points[0].longitude}"
+        } else {
+            var waypointsParam = "&waypoints=${points[0].latitude},${points[0].longitude}"
+            for (i in 1 until size - 1) {
+                waypointsParam += "|${points[i].latitude},${points[i].longitude}"
+            }
+             pointsParam += "${points[size - 1].latitude},${points[size - 1].longitude}${waypointsParam}"
+        }
+
+        return "https://maps.googleapis.com/maps/api/directions/json?mode=walking&${originParam}${pointsParam}&key=${apiKey}"
     }
 
 }
