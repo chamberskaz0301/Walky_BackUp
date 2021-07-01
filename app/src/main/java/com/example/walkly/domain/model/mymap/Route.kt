@@ -11,7 +11,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
 import org.json.JSONObject
-import java.lang.reflect.InvocationTargetException
 
 class Route(private val mMap: GoogleMap) {
 
@@ -20,6 +19,7 @@ class Route(private val mMap: GoogleMap) {
      *
      * @param origin 始点
      * @param place 中間地点,終点
+     * @throws Exception APIキーが間違っているなどのエラー
      */
     fun drawRoute(origin: LatLng, place: MutableList<LatLng>) {
 
@@ -33,9 +33,8 @@ class Route(private val mMap: GoogleMap) {
             val directionsRequest =
                 object : StringRequest(Method.GET, urlDirections, Response.Listener { response ->
 
+                    val jsonResponse = JSONObject(response)
                     try {
-
-                        val jsonResponse = JSONObject(response)
 
                         val routes = jsonResponse.getJSONArray("routes")
                         val legs = routes.getJSONObject(0).getJSONArray("legs")
@@ -57,14 +56,11 @@ class Route(private val mMap: GoogleMap) {
 
                         }
 
-                    } catch (e: InvocationTargetException) {
-                        // TODO: エラー時の処理
                     } catch (e: Exception) {
-                        // TODO: エラー時の処理
+                        throw Exception(jsonResponse.getString("error_message"))
                     }
 
                 }, Response.ErrorListener {
-                    // TODO: エラー時の処理
                 }) {}
             val requestQueue = Volley.newRequestQueue(MyApplication.getContext())
             requestQueue.add(directionsRequest)
@@ -77,7 +73,7 @@ class Route(private val mMap: GoogleMap) {
      *
      * @param origin 経路の始点となる場所
      * @param points 中間地点、終点となる場所
-     * @throws Exception 配列に要素が1つもない = 終点が存在しない
+     * @throws IllegalArgumentException 配列に要素が1つもない = 終点が存在しない
      */
     private fun createURLDirections(origin: LatLng, points: MutableList<LatLng>): String {
         val apiKey: String = MyApplication.getContext().getString(R.string.google_maps_key)
@@ -85,7 +81,7 @@ class Route(private val mMap: GoogleMap) {
 
         val size = points.size
         if (size <= 0) {
-            throw Exception("引数pointsには1つ以上の要素が必要です")
+            throw IllegalArgumentException("引数pointsには1つ以上の要素が必要です")
         }
         var pointsParam = "&destination="
         if (size == 1) {
