@@ -1,5 +1,6 @@
 package com.example.walkly.ui
 
+import android.annotation.SuppressLint
 import com.example.walkly.application.MapApplicationService
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,6 +20,7 @@ class MapCallback(private val mapApplication: MapApplicationService): OnMapReady
      *
      * @param googleMap GoogleMap SDK のメインクラス
      */
+    @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.setOnMarkerClickListener(this)
         googleMap.setOnPoiClickListener(this)

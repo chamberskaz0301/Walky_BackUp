@@ -38,4 +38,11 @@ class GPS(appActivity: AppCompatActivity) {
         }
     }
 
+    /**
+     * 現在地を取得する
+     */
+    fun getCurrentLocation() {
+
+    }
+
 }

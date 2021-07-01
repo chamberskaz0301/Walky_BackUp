@@ -4,8 +4,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.walkly.domain.model.GPS
 import com.example.walkly.domain.model.mymap.MyMap
+import com.example.walkly.domain.model.mymap.Route
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
 
 /**
@@ -14,7 +17,7 @@ import com.google.android.gms.maps.model.PointOfInterest
 
 class MapApplicationService(private val activity: AppCompatActivity) {
     private lateinit var myMap: MyMap
-
+    private lateinit var route: Route
     /**
      * マップの準備ができたら現在地を取得し、GoogleMapを保管する
      *
@@ -24,6 +27,32 @@ class MapApplicationService(private val activity: AppCompatActivity) {
         val gps = GPS(activity)
         gps.enableCurrentLocation(mMap)
         myMap = MyMap(mMap)
+        route = Route(mMap)
+    }
+
+    /**
+     * アクティビティの開始
+     */
+    fun handleActivityButton() {
+        // TODO: アクティビティの開始状況により処理を切り替える
+        // TODO: 既存ルートを消す
+        // TODO: 現在地を取得する
+        // TODO: チェックポイントの位置を取得する
+
+        val mMap = myMap.getMyMap()
+        val origin = LatLng(35.1681, 136.8856) // HAL
+
+        val place: MutableList<LatLng> = ArrayList()
+        place.add(LatLng(35.1709, 136.8815)) // 名古屋駅
+        place.add(LatLng(35.1700, 136.8852)) // ミッドランド
+        place.add(LatLng(35.1716, 136.8863)) // ユニモール
+
+        mMap.addMarker(MarkerOptions().position(origin))
+        for (j in 0 until place.size) {
+            mMap.addMarker(MarkerOptions().position(place[j]))
+        }
+
+        route.drawRoute(origin, place)
     }
 
     /**
@@ -52,5 +81,4 @@ class MapApplicationService(private val activity: AppCompatActivity) {
 
     fun handleMarkerClick(marker: Marker) {
     }
-
 }

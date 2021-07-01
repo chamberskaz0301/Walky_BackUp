@@ -2,12 +2,12 @@
 package com.example.walkly
 
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.walkly.application.MapApplicationService
 import com.example.walkly.ui.MapCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MapsActivity : AppCompatActivity() {
 
@@ -20,18 +20,17 @@ class MapsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-
-        /**
-         * TODO: GPSクラス修正
-         *  - 許可しない時の処理
-         * https://developer.android.com/training/permissions/requesting
-         */
-
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(mapCallback)
 
 
+
+        // TODO: Context置き換え
+        val button = findViewById<FloatingActionButton>(R.id.fab)
+        button.setOnClickListener {
+            mapApplication.handleActivityButton()
+        }
     }
 
 }
