@@ -7,33 +7,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- ツールバー -->
-    <Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:actionBarSize"
-        android:background="?android:colorPrimary"
-        >
-    </Toolbar>
+
 
     <!--フラグメント-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- ツールバー -->
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:colorPrimary"
+            android:minHeight="?android:actionBarSize" />
+
+
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="411dp"
-            android:layout_height="620dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintVertical_bias="1.0"
             tools:context=".MapsActivity" />
+
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
@@ -63,4 +65,6 @@
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottomAppBar"
         android:src="@drawable/ic_list" />-->
+
+
 </FrameLayout>
