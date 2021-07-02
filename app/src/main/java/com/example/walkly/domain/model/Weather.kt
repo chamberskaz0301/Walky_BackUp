@@ -5,25 +5,14 @@ package com.example.walkly.domain.model
 * 取得した文字データを画像に変換
 */
 
-import android.R
-import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
+
+import com.example.walkly.lib.HTTPRequest
+import com.google.android.gms.maps.model.LatLng
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 import java.util.*
-
-import android.Manifest;
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,7 +34,6 @@ class Weather() {
     * android:usesCleartextTraffic="true"
     * を記述する必要あり？
     */
-
     public fun start(latLng: LatLng) {
         println("処理を開始")
 
@@ -70,7 +58,13 @@ class Weather() {
             var url = URL(APIurl)
 
             /*APIから情報を取得する*/
+
             var br = BufferedReader(InputStreamReader(url.openStream()))
+
+            var errorListener = ""
+
+            HTTPRequest().getRequest(APIurl, br, errorListener)
+
 
             /*所得した情報を文字列化*/
             var str = br.readText()
@@ -100,7 +94,7 @@ class Weather() {
     /*
     * 取得した文字データを画像に変換
     */
-    private fun createWeatherImage(json: Any) {
+    fun createWeatherImage(json: Any) {
         println("天気を画像データに変換")
         var weathericon = weatherName
         var iconurl : String
