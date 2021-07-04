@@ -17,7 +17,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Walky">
+        android:theme="@style/Theme.Walky"
+        android:usesCleartextTraffic="true"
+        >
 
         <activity android:name=".SplashActivity">
             <intent-filter>
