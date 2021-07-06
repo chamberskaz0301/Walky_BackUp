@@ -5,6 +5,7 @@ package com.example.walkly
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.walkly.application.MapApplicationService
+import com.example.walkly.domain.model.Weather
 import com.example.walkly.ui.MapCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -23,8 +24,6 @@ class MapsActivity : AppCompatActivity() {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(mapCallback)
-
-
 
         // TODO: Context置き換え
         val button = findViewById<FloatingActionButton>(R.id.fab)
