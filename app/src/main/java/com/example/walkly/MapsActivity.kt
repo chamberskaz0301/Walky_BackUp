@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MapsActivity : AppCompatActivity() {
 
 
+
     private val mapApplication: MapApplicationService = MapApplicationService(this)
     private val mapCallback: MapCallback = MapCallback(mapApplication)
 
@@ -25,8 +26,6 @@ class MapsActivity : AppCompatActivity() {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(mapCallback)
 
-<<<<<<< HEAD
-=======
 
 
         // TODO: Context置き換え
@@ -34,7 +33,7 @@ class MapsActivity : AppCompatActivity() {
         button.setOnClickListener {
             mapApplication.handleActivityButton()
         }
->>>>>>> ef5f1b50b62bee3016f6fc714c7191faa736c0be
+
     }
 
 }
