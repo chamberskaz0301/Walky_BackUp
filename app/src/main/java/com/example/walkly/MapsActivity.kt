@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MapsActivity : AppCompatActivity() {
 
 
+
     private val mapApplication: MapApplicationService = MapApplicationService(this)
     private val mapCallback: MapCallback = MapCallback(mapApplication)
 
