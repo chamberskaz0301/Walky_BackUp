@@ -10,8 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 追加 -->
 
-    <uses-permission android:name="android.permission.INTERNET" /><!-- #32追加 -->
-
     <application
         android:name=".domain.model.MyApplication"
         android:allowBackup="true"
