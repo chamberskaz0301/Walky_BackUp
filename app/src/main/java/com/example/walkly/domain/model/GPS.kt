@@ -33,10 +33,6 @@ class GPS(appActivity: AppCompatActivity) {
             if(location != null){
                 lastLocation = location
                 val  currentLatLong = LatLng(location.latitude, location.longitude)
-
-                /*後で消す*/
-                Weather().start(currentLatLong)
-
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 18f))
             }
         }
