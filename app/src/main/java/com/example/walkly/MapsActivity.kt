@@ -5,7 +5,6 @@ package com.example.walkly
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.walkly.application.MapApplicationService
-import com.example.walkly.domain.model.Weather
 import com.example.walkly.ui.MapCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -1,22 +1,16 @@
 package com.example.walkly.application
 
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Response
-import com.example.walkly.R
 import com.example.walkly.domain.model.Activity
 import com.example.walkly.domain.model.GPS
-import com.example.walkly.domain.model.MyApplication
 import com.example.walkly.domain.model.mymap.MyMap
 import com.example.walkly.domain.model.mymap.Route
-import com.example.walkly.lib.HTTPRequest
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
-import org.json.JSONObject
 
 /**
  * 現在地の取得やアクティビティの開始などの指示を統括している
